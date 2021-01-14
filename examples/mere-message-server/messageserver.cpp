@@ -24,5 +24,5 @@ void MessageServer::message(const QString &message)
 
 void MessageServer::message(const Mere::Message::Message &message)
 {
-    qDebug() << "XXXMESSAGE HEADER AND BODY";
+    qDebug() << "MESSAGE HEADER AND BODY";
 }

@@ -5,11 +5,11 @@
 
 #include <QObject>
 
-class MessageServer : public QObject
+class Server : public QObject
 {
     Q_OBJECT
 public:
-    explicit MessageServer(QObject *parent = nullptr);
+    explicit Server(QObject *parent = nullptr);
 
 signals:
 

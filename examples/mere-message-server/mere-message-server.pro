@@ -3,7 +3,7 @@ QT -= gui
 CONFIG += c++11 console
 CONFIG -= app_bundle
 
-TARGET = mms
+TARGET = mere-message-server
 TEMPLATE = app
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -12,7 +12,7 @@ TEMPLATE = app
 
 SOURCES += \
         main.cpp \
-        messageserver.cpp
+        server.cpp
 
 
 INCLUDEPATH += /usr/local/include
@@ -20,4 +20,4 @@ INCLUDEPATH += /usr/local/include
 LIBS += -lmere-message -lrt
 
 HEADERS += \
-    messageserver.h
+    server.h

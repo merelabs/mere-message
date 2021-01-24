@@ -3,7 +3,7 @@ QT -= gui
 CONFIG += c++11 console
 CONFIG -= app_bundle
 
-TARGET = mms
+TARGET = mere-message-client
 TEMPLATE = app
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -11,8 +11,8 @@ TEMPLATE = app
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp \
-        messageclient.cpp
+        client.cpp \
+        main.cpp
 
 
 INCLUDEPATH += /usr/local/include
@@ -20,4 +20,4 @@ INCLUDEPATH += /usr/local/include
 LIBS += -lmere-message -lrt
 
 HEADERS += \
-    messageclient.h
+    client.h

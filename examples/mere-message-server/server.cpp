@@ -1,6 +1,6 @@
-#include "messageserver.h"
+#include "server.h"
 
-MessageServer::MessageServer(QObject *parent) : QObject(parent)
+Server::Server(QObject *parent) : QObject(parent)
 {
     m_server = new Mere::Message::Server("/mms");
     connect(m_server, SIGNAL(message(const Mere::Message::Message &)), this, SLOT(message(const Mere::Message::Message &)));
@@ -12,17 +12,17 @@ MessageServer::MessageServer(QObject *parent) : QObject(parent)
 //    delete m_server;
 }
 
-void MessageServer::ping(const int &pid)
+void Server::ping(const int &pid)
 {
     qDebug() << "SOMEONE PING ME" << pid;
 }
 
-void MessageServer::message(const QString &message)
+void Server::message(const QString &message)
 {
     qDebug() << "MESSAGE BODY ONLY" << message;
 }
 
-void MessageServer::message(const Mere::Message::Message &message)
+void Server::message(const Mere::Message::Message &message)
 {
     qDebug() << "MESSAGE HEADER AND BODY";
 }

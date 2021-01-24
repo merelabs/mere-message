@@ -1,12 +1,12 @@
 #include <QCoreApplication>
 
-#include "messageclient.h"
+#include "client.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    MessageClient client;
+    Client client;
 //    client.ping();
 
     return a.exec();

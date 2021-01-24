@@ -1,13 +1,13 @@
 #include <QCoreApplication>
 #include <QDebug>
 
-#include "messageserver.h"
+#include "server.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    MessageServer server;
+    Server server;
 
     return a.exec();
 }

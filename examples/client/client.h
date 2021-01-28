@@ -18,6 +18,8 @@ public slots:
     void message(const QString &message);
     void message(const Mere::Message::Message &message);
 
+    void seen(const pid_t &pid, const mid_t &id);
+
 private:
     Mere::Message::Client *m_client;
 };

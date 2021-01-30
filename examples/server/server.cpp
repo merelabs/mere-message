@@ -20,9 +20,11 @@ void Server::ping(const int &pid)
 void Server::message(const QString &message)
 {
     qDebug() << "MESSAGE BODY ONLY" << message;
+    m_server->send("Hello! I am at your service!");
 }
 
 void Server::message(const Mere::Message::Message &message)
 {
     qDebug() << "MESSAGE HEADER AND BODY";
+    m_server->send("Hello! I am at your service!");
 }

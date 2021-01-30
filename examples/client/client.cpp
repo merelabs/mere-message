@@ -20,7 +20,7 @@ void Client::pong(const int &pid)
 
 void Client::message(const QString &message)
 {
-    qDebug() << "MESSAGE BODY ONLY";
+    qDebug() << "MESSAGE BODY ONLY" << message;
 }
 
 void Client::message(const Mere::Message::Message &message)

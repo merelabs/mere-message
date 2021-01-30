@@ -1,3 +1,6 @@
 [submodule "mere-message-lib"]
-	path = mere-message-lib
+	path = lib
+	url = https://github.com/merelabs/mere-message-lib.git
+[submodule "lib"]
+	path = lib
 	url = https://github.com/merelabs/mere-message-lib.git

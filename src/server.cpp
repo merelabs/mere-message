@@ -28,7 +28,7 @@ Mere::Message::Server::Server(const char *path, QObject *parent)
     //std::cout << "Service:" << uri.service() << std::endl;
 
     m_messenger = new Messenger(uri.path(), this);
-    std::cout << "It's me, a server:" << getpid() << " listening at: " << path << std::endl;
+    std::cout << "It's me, a server: " << getpid() << " listening at: " << path << std::endl;
 }
 
 int Mere::Message::Server::start()

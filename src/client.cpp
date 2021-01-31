@@ -28,7 +28,7 @@ Mere::Message::Client::Client(const char *path, QObject *parent)
 
     m_messenger = new Messenger(uri.path(), this);
 
-    std::cout << "Its me, a client:" << getpid()  << " connecting to: " << path << std::endl;
+    std::cout << "Its me, a client: " << getpid()  << " connecting to: " << path << std::endl;
 }
 
 int Mere::Message::Client::join()

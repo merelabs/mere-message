@@ -29,13 +29,13 @@ Mere::Message::Notifier::Notifier(QObject *parent)
 
 int Mere::Message::Notifier::watch(int signal)
 {
-    std::cout << "Setting up signal:" << signal << std::endl;
+    //std::cout << "Setting up signal:" << signal << std::endl;
     return setup(signal);
 }
 
 int Mere::Message::Notifier::setup(int signal)
 {
-    std::cout << "INFO: Handle SIGNAL:" << signal << std::endl;
+    //std::cout << "INFO: Handle SIGNAL:" << signal << std::endl;
 
     struct sigaction signalAction;
     sigemptyset(&signalAction.sa_mask);

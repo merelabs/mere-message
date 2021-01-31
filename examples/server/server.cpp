@@ -2,7 +2,7 @@
 
 Server::Server(QObject *parent) : QObject(parent)
 {
-    m_server = new Mere::Message::Server("/mms");
+    m_server = new Mere::Message::Server("mms://local");
     connect(m_server, SIGNAL(message(const Mere::Message::Message &)), this, SLOT(message(const Mere::Message::Message &)));
     connect(m_server, SIGNAL(message(const QString &)), this, SLOT(message(const QString &)));
     connect(m_server, SIGNAL(ping(const int &)), this, SLOT(ping(const int &)));

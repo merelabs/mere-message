@@ -23,6 +23,7 @@ class MERE_MESSAGE_LIB_SPEC Messenger : public QObject, public IDChecker
 public:
     virtual ~Messenger();
     explicit Messenger(const char *name, QObject *parent = nullptr);
+    explicit Messenger(const std::string &path, QObject *parent = nullptr);
 
     int bind();
     int join();

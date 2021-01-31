@@ -18,7 +18,7 @@ class MERE_MESSAGE_LIB_SPEC Server : public Sender
     Q_OBJECT
 public:
     ~Server();
-    explicit Server(const char *name, QObject *parent = nullptr);
+    explicit Server(const char *path, QObject *parent = nullptr);
     int start();
     int stop();
 

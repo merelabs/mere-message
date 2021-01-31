@@ -15,7 +15,7 @@ class MERE_MESSAGE_LIB_SPEC Client : public Sender
     Q_OBJECT
 public:
     virtual ~Client();
-    explicit Client(const char *name, QObject *parent = nullptr);
+    explicit Client(const char *path, QObject *parent = nullptr);
 
     int join();
     int done();

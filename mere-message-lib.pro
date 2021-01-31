@@ -26,6 +26,7 @@ SOURCES += \
     src/sender.cpp \
     src/server.cpp \
     src/space.cpp \
+    src/uri.cpp \
     src/utils.cpp
 
 HEADERS += \
@@ -44,6 +45,7 @@ HEADERS += \
     src/server.h \
     src/space.h \
     src/types.h \
+    src/uri.h \
     src/utils.h
 
 LIBS += -lrt

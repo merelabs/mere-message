@@ -23,6 +23,11 @@ Mere::Message::Messenger::Messenger(const char *name, QObject *parent)
     srand (time(NULL));
 }
 
+Mere::Message::Messenger::Messenger(const std::string &path, QObject *parent)
+    : Messenger(path.c_str(), parent)
+{
+}
+
 int Mere::Message::Messenger::bind()
 {
     return m_space.bind();

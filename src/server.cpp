@@ -1,5 +1,6 @@
 #include "server.h"
 #include "message.h"
+#include "uri.h"
 
 #include <iostream>
 
@@ -12,11 +13,19 @@ Mere::Message::Server::~Server()
     }
 }
 
-Mere::Message::Server::Server(const char *name, QObject *parent)
-    : Sender(parent),
-      m_messenger(new Messenger(name, this))
-
+Mere::Message::Server::Server(const char *path, QObject *parent)
+    : Sender(parent)
 {
+    Uri uri(path);
+
+    std::cout << "Schema:" << uri.schema() << std::endl;
+    std::cout << "Server:" << uri.server() << std::endl;
+    std::cout << "Service:" << uri.service() << std::endl;
+
+    std::string fqpath = uri.fqpath();
+
+    m_messenger = new Messenger(fqpath, this);
+
     qDebug() << "It's me, a server:" << getpid();
 }
 

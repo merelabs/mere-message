@@ -22,13 +22,13 @@ Mere::Message::Client::Client(const char *path, QObject *parent)
 {
     Uri uri(path);
 
-    std::cout << "Schema:" << uri.schema() << std::endl;
-    std::cout << "Server:" << uri.server() << std::endl;
-    std::cout << "Service:" << uri.service() << std::endl;
+    //std::cout << "Schema:" << uri.schema() << std::endl;
+    //std::cout << "Server:" << uri.server() << std::endl;
+    //std::cout << "Service:" << uri.service() << std::endl;
 
     m_messenger = new Messenger(uri.path(), this);
 
-    std::cout << "Its me, a client:" << getpid() << std::endl;
+    std::cout << "Its me, a client:" << getpid()  << " connecting to: " << path << std::endl;
 }
 
 int Mere::Message::Client::join()

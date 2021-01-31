@@ -23,13 +23,12 @@ Mere::Message::Server::Server(const char *path, QObject *parent)
 {
     Uri uri(path);
 
-    std::cout << "Schema:" << uri.schema() << std::endl;
-    std::cout << "Server:" << uri.server() << std::endl;
-    std::cout << "Service:" << uri.service() << std::endl;
+    //std::cout << "Schema:" << uri.schema() << std::endl;
+    //std::cout << "Server:" << uri.server() << std::endl;
+    //std::cout << "Service:" << uri.service() << std::endl;
 
     m_messenger = new Messenger(uri.path(), this);
-
-    qDebug() << "It's me, a server:" << getpid();
+    std::cout << "It's me, a server:" << getpid() << " listening at: " << path << std::endl;
 }
 
 int Mere::Message::Server::start()

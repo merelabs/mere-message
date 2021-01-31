@@ -12,6 +12,11 @@ Mere::Message::Client::~Client()
     }
 }
 
+Mere::Message::Client::Client(const std::string &path, QObject *parent)
+    : Client(path.c_str(), parent)
+{
+}
+
 Mere::Message::Client::Client(const char *path, QObject *parent)
     : Sender(parent)
 {
@@ -21,9 +26,7 @@ Mere::Message::Client::Client(const char *path, QObject *parent)
     std::cout << "Server:" << uri.server() << std::endl;
     std::cout << "Service:" << uri.service() << std::endl;
 
-    std::string fqpath = uri.fqpath();
-
-    m_messenger = new Messenger(fqpath, this);
+    m_messenger = new Messenger(uri.path(), this);
 
     std::cout << "Its me, a client:" << getpid() << std::endl;
 }
@@ -42,7 +45,7 @@ int Mere::Message::Client::join()
         connect(m_messenger, SIGNAL(message(const Mere::Message::Message &)), this, SIGNAL(message(const Mere::Message::Message &)));
 
         connect(m_messenger, SIGNAL(seen(const pid_t &, const mid_t &)), this, SIGNAL(seen(const pid_t &, const mid_t &)));
-        connect(m_messenger, SIGNAL(ackn(const pid_t &, const metod_t &)), this, SIGNAL(ackn(const pid_t &, const metod_t &)));
+        connect(m_messenger, SIGNAL(ackn(const pid_t &, const method_t &)), this, SIGNAL(ackn(const pid_t &, const method_t &)));
     }
 
     return err;

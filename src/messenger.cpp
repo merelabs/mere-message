@@ -9,12 +9,12 @@ Mere::Message::Messenger::~Messenger()
 {
 }
 
-Mere::Message::Messenger::Messenger(const char *name, QObject *parent)
+Mere::Message::Messenger::Messenger(const char *path, QObject *parent)
     : QObject(parent),
-      m_space(name, 4),
+      m_space(path, 4),
       m_notifier(new Notifier())
 {
-    if(!Utils::isValidName(name))
+    if(!Utils::isValidName(path))
         throw std::invalid_argument("Invalid shared message space name.");
 
     // someone send a request

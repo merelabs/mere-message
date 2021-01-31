@@ -13,6 +13,11 @@ Mere::Message::Server::~Server()
     }
 }
 
+Mere::Message::Server::Server(const std::string &path, QObject *parent)
+    : Server(path.c_str(), parent)
+{
+}
+
 Mere::Message::Server::Server(const char *path, QObject *parent)
     : Sender(parent)
 {
@@ -22,9 +27,7 @@ Mere::Message::Server::Server(const char *path, QObject *parent)
     std::cout << "Server:" << uri.server() << std::endl;
     std::cout << "Service:" << uri.service() << std::endl;
 
-    std::string fqpath = uri.fqpath();
-
-    m_messenger = new Messenger(fqpath, this);
+    m_messenger = new Messenger(uri.path(), this);
 
     qDebug() << "It's me, a server:" << getpid();
 }

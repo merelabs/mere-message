@@ -21,6 +21,10 @@ public:
     const std::string server() const;
     const std::string service() const;
 
+    const std::string base() const;
+    const std::string fqbase() const;
+
+    const std::string path() const;
     const std::string fqpath() const;
 
     static bool isValid(const char *uri);

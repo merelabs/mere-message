@@ -15,6 +15,7 @@ class MERE_MESSAGE_LIB_SPEC Client : public Sender
     Q_OBJECT
 public:
     virtual ~Client();
+    explicit Client(const std::string &path, QObject *parent = nullptr);
     explicit Client(const char *path, QObject *parent = nullptr);
 
     int join();
@@ -29,7 +30,7 @@ signals:
     void ping(const int &pid);
     void pong(const int &pid);
 
-    void post(const int &id);
+    void post(const mid_t &id);
 
     void message(const QString &message);
     void message(const Mere::Message::Message &message);

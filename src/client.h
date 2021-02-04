@@ -22,7 +22,7 @@ public:
     int done();
 
     void ping();
-    void send(const QString &message) override;
+    void send(const std::string &message) override;
 
 signals:
     void call(const int &pid);
@@ -32,7 +32,7 @@ signals:
 
     void post(const mid_t &id);
 
-    void message(const QString &message);
+    void message(const std::string &message);
     void message(const Mere::Message::Message &message);
 
     void seen(const pid_t &pid, const mid_t &id);

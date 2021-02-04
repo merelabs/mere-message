@@ -41,7 +41,7 @@ int Mere::Message::Client::join()
         connect(m_messenger, SIGNAL(pong(const int &)), this, SIGNAL(pong(const int &)));
 
         connect(m_messenger, SIGNAL(post(const mid_t &)), this, SIGNAL(post(const mid_t &)));
-        connect(m_messenger, SIGNAL(message(const QString &)), this, SIGNAL(message(const QString &)));
+        connect(m_messenger, SIGNAL(message(const std::string &)), this, SIGNAL(message(const std::string &)));
         connect(m_messenger, SIGNAL(message(const Mere::Message::Message &)), this, SIGNAL(message(const Mere::Message::Message &)));
 
         connect(m_messenger, SIGNAL(seen(const pid_t &, const mid_t &)), this, SIGNAL(seen(const pid_t &, const mid_t &)));
@@ -61,7 +61,7 @@ void Mere::Message::Client::ping()
     m_messenger->send(PING);
 }
 
-void Mere::Message::Client::send(const QString &message)
+void Mere::Message::Client::send(const std::string &message)
 {
-    m_messenger->send(message.toStdString().c_str());
+    m_messenger->send(message.c_str());
 }

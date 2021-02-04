@@ -24,7 +24,7 @@ public:
     int stop();
 
     void pong();
-    void send(const QString &message) override;
+    void send(const std::string &message) override;
 
 private slots:
     void accept(const pid_t &pid);
@@ -34,7 +34,7 @@ signals:
     void ping(const int &pid);
     void pong(const int &pid);
 
-    void message(const QString &message);
+    void message(const std::string &message);
     void message(const Mere::Message::Message &message);
 
     void post(const mid_t &id);

@@ -4,6 +4,7 @@
 
 #include <iostream>
 
+#include <QThread>
 Mere::Message::Server::~Server()
 {
     if(m_messenger)
@@ -33,6 +34,7 @@ Mere::Message::Server::Server(const char *path, QObject *parent)
 
 int Mere::Message::Server::start()
 {
+    qDebug() << "Thread:" << QThread::currentThreadId();
     m_messenger->notifier()->watch(SIGUSR2);
 
     int err = m_messenger->bind();
@@ -45,7 +47,7 @@ int Mere::Message::Server::start()
         connect(m_messenger, SIGNAL(join(const pid_t &)), this, SLOT(accept(const pid_t&)));;
 
         connect(m_messenger, SIGNAL(message(const Mere::Message::Message &)), this, SIGNAL(message(const Mere::Message::Message &)));
-        connect(m_messenger, SIGNAL(message(const QString &)), this, SIGNAL(message(const QString &)));
+        connect(m_messenger, SIGNAL(message(const std::string &)), this, SIGNAL(message(const std::string &)));
         connect(m_messenger, SIGNAL(pong(const int &)), this, SIGNAL(pong(const int &)));
 
         connect(m_messenger, SIGNAL(seen(const pid_t &, const mid_t &)), this, SIGNAL(seen(const pid_t &, const mid_t &)));
@@ -56,7 +58,14 @@ int Mere::Message::Server::start()
 
 void Mere::Message::Server::accept(const pid_t &pid)
 {
-    std::cout << "A process " <<pid << " wanna join in the session." << std::endl;
+    qDebug() << "Thread:" << QThread::currentThreadId() << m_messenger;
+
+    qDebug() << "SPACE:" << m_messenger->m_space.m_space;
+    qDebug() << "OFFSET:" << offsetof(MessageSpace, messages);
+    qDebug() << "MESSAGES:" << m_messenger->m_space.m_space->messages;
+
+
+    std::cout << "A process " << pid << " wanna join in the session." << std::endl;
 
     auto result = std::find(std::begin(m_clients), std::end(m_clients), pid);
     if(result != std::end(m_clients))
@@ -68,6 +77,8 @@ void Mere::Message::Server::accept(const pid_t &pid)
     m_clients.push_back(pid);
     std::cout << "A process " << pid << " just joined in the session." << std::endl;
 
+    m_messenger->get(1);
+
     // acknowledge the acceptance
     m_messenger->ackn(pid, Method::JOIN);
 }
@@ -77,9 +88,9 @@ int Mere::Message::Server::stop()
     return m_messenger->done();
 }
 
-void Mere::Message::Server::send(const QString &message)
+void Mere::Message::Server::send(const std::string &message)
 {
-    m_messenger->send(message.toStdString().c_str(), m_clients);
+    m_messenger->send(message.c_str(), m_clients);
 }
 
 void Mere::Message::Server::pong()

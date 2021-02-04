@@ -45,7 +45,6 @@ int Mere::Message::Space::bind()
 
     vmap();
 
-    memset(m_space, 0, size());
     m_space->origin = getpid();
     m_space->head   = 0;
 
@@ -80,7 +79,11 @@ int Mere::Message::Space::vmap()
         return errno;
     }
 
-    m_space->messages = (Message *)(m_space + offsetof(MessageSpace, messages));
+//    if(mlock(m_space,size()) != 0){
+//        qDebug() << "FAILED TO LOCKED:" << m_space << &(m_space->messages) << m_space->messages;
+//      exit();
+//    }
+//    m_space->messages = (Message *)((char*)m_space + offsetof(MessageSpace, messages));
 
     return 0;
 }
@@ -132,7 +135,8 @@ Mere::Message::Message* Mere::Message::Space::get(unsigned int index) const
     if (index >= m_unit)
         throw std::invalid_argument("No more space for this unit of message.");
 
-    return m_space->messages + index;
+//    return m_space->messages + index;
+    return &m_space->messages[index];
 }
 
 int Mere::Message::Space::set(const Message &message) const

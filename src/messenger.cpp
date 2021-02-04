@@ -11,7 +11,7 @@ Mere::Message::Messenger::~Messenger()
 
 Mere::Message::Messenger::Messenger(const char *path, QObject *parent)
     : QObject(parent),
-      m_space(path, 4),
+      m_space(path, 4, 4096),
       m_notifier(new Notifier())
 {
     if(!Utils::isValidName(path))
@@ -251,13 +251,13 @@ bool Mere::Message::Messenger::exists(const mid_t id) const
 
 Mere::Message::Message* Mere::Message::Messenger::get(mid_t id) const
 {
-    qDebug() << "Going to fetch message with id:" << id;
+    qDebug() << "Going to fetch message with id:" << id << &m_space;
     int numberOfMessages = m_space.numberOfUnits();
     for (int index = 0; index < numberOfMessages; index++)
     {
         Message *msg = m_space.get(index);
         if (!msg) continue;
-
+        qDebug() << msg << msg->id;
         if (msg->id == id)
             return msg;
     }
@@ -324,7 +324,7 @@ void Mere::Message::Messenger::catched(pid_t who, int what)
 
         // read the message.....
         emit this->post(id);
-        emit this->message(QString(copy._dblock.data));
+        emit this->message(copy._dblock.data);
         emit this->message(copy);
     }
     else if (method == SEEN)

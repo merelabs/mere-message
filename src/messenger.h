@@ -110,7 +110,7 @@ signals:
     void post(const mid_t &id);
 
     // let other know the newly posted message content
-    void message(const QString &message);
+    void message(const std::string &message);
 
     // let other know the newly posted message
     void message(const Mere::Message::Message &message);
@@ -124,8 +124,9 @@ signals:
 public slots:
     void catched(pid_t who, int what);
 
-private:
+public:
     Space m_space;
+private:
     Notifier *m_notifier;
 };
 

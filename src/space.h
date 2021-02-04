@@ -26,7 +26,7 @@ typedef struct
 
     // message block
     unsigned char head;
-    Message *messages;
+    Message messages[];
 
 } MessageSpace;
 
@@ -82,6 +82,7 @@ private:
     int m_shm;
     bool m_ready;
 
+public:
     MessageSpace *m_space;
 };
 

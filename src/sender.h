@@ -18,7 +18,7 @@ public:
 
     virtual pid_t whoami();
 
-    virtual void send(const QString &message) = 0;
+    virtual void send(const std::string &message) = 0;
 
 };
 

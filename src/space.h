@@ -4,6 +4,7 @@
 #include "global.h"
 #include "message.h"
 #include "command.h"
+#include "locker.h"
 
 #include <QObject>
 #include <QDebug>
@@ -26,7 +27,7 @@ typedef struct
 
     // message block
     unsigned char head;
-    Message *messages;
+    Message messages[];
 
 } MessageSpace;
 
@@ -82,6 +83,8 @@ private:
     int m_shm;
     bool m_ready;
 
+public:
+    Locker *m_locker;
     MessageSpace *m_space;
 };
 

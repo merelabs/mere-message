@@ -22,7 +22,7 @@ class MERE_MESSAGE_LIB_SPEC Messenger : public QObject, public IDChecker
     Q_OBJECT
 public:
     virtual ~Messenger();
-    explicit Messenger(const char *name, QObject *parent = nullptr);
+    explicit Messenger(const char *path, QObject *parent = nullptr);
     explicit Messenger(const std::string &path, QObject *parent = nullptr);
 
     int bind();
@@ -110,7 +110,7 @@ signals:
     void post(const mid_t &id);
 
     // let other know the newly posted message content
-    void message(const QString &message);
+    void message(const std::string &message);
 
     // let other know the newly posted message
     void message(const Mere::Message::Message &message);

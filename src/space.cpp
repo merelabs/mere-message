@@ -24,6 +24,8 @@ Mere::Message::Space::Space(const char *name, int unit, int size)
 {
     m_name = (char *) malloc(strlen(name) + 1);
     strcpy(m_name, name);
+
+    m_locker = new Locker(m_name);
 }
 
 int Mere::Message::Space::bind()
@@ -35,8 +37,8 @@ int Mere::Message::Space::bind()
         return errno;
     }
 
-    int result = ftruncate(m_shm, size());
-    if (result != 0)
+    int err = ftruncate(m_shm, size());
+    if (err)
     {
         shm_unlink(m_name);
         Error::ftruncate();
@@ -45,13 +47,16 @@ int Mere::Message::Space::bind()
 
     vmap();
 
-    memset(m_space, 0, size());
     m_space->origin = getpid();
     m_space->head   = 0;
 
     ready(true);
 
-    return 0;
+    // lock
+    err = m_locker->bind();
+    if (err) done();
+
+    return err;
 }
 
 int Mere::Message::Space::join()
@@ -66,7 +71,11 @@ int Mere::Message::Space::join()
     vmap();
     ready(true);
 
-    return 0;
+    // lock
+    int err = m_locker->bind();
+    if (err) done();
+
+    return err;
 }
 
 int Mere::Message::Space::vmap()
@@ -80,7 +89,11 @@ int Mere::Message::Space::vmap()
         return errno;
     }
 
-    m_space->messages = (Message *)(m_space + offsetof(MessageSpace, messages));
+//    if(mlock(m_space,size()) != 0){
+//        qDebug() << "FAILED TO LOCKED:" << m_space << &(m_space->messages) << m_space->messages;
+//      exit();
+//    }
+//    m_space->messages = (Message *)((char*)m_space + offsetof(MessageSpace, messages));
 
     return 0;
 }
@@ -132,7 +145,8 @@ Mere::Message::Message* Mere::Message::Space::get(unsigned int index) const
     if (index >= m_unit)
         throw std::invalid_argument("No more space for this unit of message.");
 
-    return m_space->messages + index;
+//    return m_space->messages + index;
+    return &m_space->messages[index];
 }
 
 int Mere::Message::Space::set(const Message &message) const
@@ -167,6 +181,8 @@ int Mere::Message::Space::set(const unsigned int index, const Message &message) 
     if (index >= m_unit)
         throw std::invalid_argument("No more space for this unit of message.");
 
+    m_locker->lock();
+
     Mere::Message::Message *target = this->get(index);
 
     memset(target, 0, sizeof (*target));
@@ -175,6 +191,8 @@ int Mere::Message::Space::set(const unsigned int index, const Message &message) 
     // update the head
     // rotate the head
     m_space->head = (index + 1 == m_unit) ? 0 : index + 1;    
+
+    m_locker->free();
 
     return 0;
 }

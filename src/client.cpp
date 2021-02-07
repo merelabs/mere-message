@@ -12,20 +12,23 @@ Mere::Message::Client::~Client()
     }
 }
 
+Mere::Message::Client::Client(const std::string &path, QObject *parent)
+    : Client(path.c_str(), parent)
+{
+}
+
 Mere::Message::Client::Client(const char *path, QObject *parent)
     : Sender(parent)
 {
     Uri uri(path);
 
-    std::cout << "Schema:" << uri.schema() << std::endl;
-    std::cout << "Server:" << uri.server() << std::endl;
-    std::cout << "Service:" << uri.service() << std::endl;
+    //std::cout << "Schema:" << uri.schema() << std::endl;
+    //std::cout << "Server:" << uri.server() << std::endl;
+    //std::cout << "Service:" << uri.service() << std::endl;
 
-    std::string fqpath = uri.fqpath();
+    m_messenger = new Messenger(uri.path(), this);
 
-    m_messenger = new Messenger(fqpath, this);
-
-    std::cout << "Its me, a client:" << getpid() << std::endl;
+    std::cout << "Its me, a client: " << getpid()  << " connecting to: " << path << std::endl;
 }
 
 int Mere::Message::Client::join()
@@ -38,11 +41,11 @@ int Mere::Message::Client::join()
         connect(m_messenger, SIGNAL(pong(const int &)), this, SIGNAL(pong(const int &)));
 
         connect(m_messenger, SIGNAL(post(const mid_t &)), this, SIGNAL(post(const mid_t &)));
-        connect(m_messenger, SIGNAL(message(const QString &)), this, SIGNAL(message(const QString &)));
+        connect(m_messenger, SIGNAL(message(const std::string &)), this, SIGNAL(message(const std::string &)));
         connect(m_messenger, SIGNAL(message(const Mere::Message::Message &)), this, SIGNAL(message(const Mere::Message::Message &)));
 
         connect(m_messenger, SIGNAL(seen(const pid_t &, const mid_t &)), this, SIGNAL(seen(const pid_t &, const mid_t &)));
-        connect(m_messenger, SIGNAL(ackn(const pid_t &, const metod_t &)), this, SIGNAL(ackn(const pid_t &, const metod_t &)));
+        connect(m_messenger, SIGNAL(ackn(const pid_t &, const method_t &)), this, SIGNAL(ackn(const pid_t &, const method_t &)));
     }
 
     return err;
@@ -58,7 +61,7 @@ void Mere::Message::Client::ping()
     m_messenger->send(PING);
 }
 
-void Mere::Message::Client::send(const QString &message)
+void Mere::Message::Client::send(const std::string &message)
 {
-    m_messenger->send(message.toStdString().c_str());
+    m_messenger->send(message.c_str());
 }

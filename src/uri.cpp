@@ -44,10 +44,32 @@ const std::string Mere::Message::Uri::service() const
     return m_uri.path().remove(0, 1).toStdString();
 }
 
-const std::string Mere::Message::Uri::fqpath() const
+const std::string Mere::Message::Uri::base() const
+{
+    QString uri(m_uri.url(QUrl::RemoveScheme | QUrl::RemovePath | QUrl::RemoveQuery | QUrl::StripTrailingSlash));
+    uri = uri.remove(0, 1);
+
+    return uri.toStdString();
+}
+
+const std::string Mere::Message::Uri::fqbase() const
+{
+    QString uri(m_uri.url(QUrl::RemovePath | QUrl::RemoveQuery | QUrl::StripTrailingSlash));
+
+    return uri.toStdString();
+}
+
+const std::string Mere::Message::Uri::path() const
 {
     QString uri(m_uri.url(QUrl::RemoveScheme | QUrl::RemoveQuery | QUrl::StripTrailingSlash));
     uri = uri.remove(0, 1);
+
+    return uri.toStdString();
+}
+
+const std::string Mere::Message::Uri::fqpath() const
+{
+    QString uri(m_uri.url(QUrl::RemoveQuery | QUrl::StripTrailingSlash));
 
     return uri.toStdString();
 }

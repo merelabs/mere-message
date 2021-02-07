@@ -24,6 +24,8 @@ Mere::Message::Space::Space(const char *name, int unit, int size)
 {
     m_name = (char *) malloc(strlen(name) + 1);
     strcpy(m_name, name);
+
+    m_locker = new Locker(m_name);
 }
 
 int Mere::Message::Space::bind()
@@ -35,8 +37,8 @@ int Mere::Message::Space::bind()
         return errno;
     }
 
-    int result = ftruncate(m_shm, size());
-    if (result != 0)
+    int err = ftruncate(m_shm, size());
+    if (err)
     {
         shm_unlink(m_name);
         Error::ftruncate();
@@ -50,7 +52,11 @@ int Mere::Message::Space::bind()
 
     ready(true);
 
-    return 0;
+    // lock
+    err = m_locker->bind();
+    if (err) done();
+
+    return err;
 }
 
 int Mere::Message::Space::join()
@@ -65,7 +71,11 @@ int Mere::Message::Space::join()
     vmap();
     ready(true);
 
-    return 0;
+    // lock
+    int err = m_locker->bind();
+    if (err) done();
+
+    return err;
 }
 
 int Mere::Message::Space::vmap()
@@ -171,6 +181,8 @@ int Mere::Message::Space::set(const unsigned int index, const Message &message) 
     if (index >= m_unit)
         throw std::invalid_argument("No more space for this unit of message.");
 
+    m_locker->lock();
+
     Mere::Message::Message *target = this->get(index);
 
     memset(target, 0, sizeof (*target));
@@ -179,6 +191,8 @@ int Mere::Message::Space::set(const unsigned int index, const Message &message) 
     // update the head
     // rotate the head
     m_space->head = (index + 1 == m_unit) ? 0 : index + 1;    
+
+    m_locker->free();
 
     return 0;
 }

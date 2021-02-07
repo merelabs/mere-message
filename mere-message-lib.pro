@@ -21,6 +21,7 @@ SOURCES += \
     src/masker.cpp \
     src/message.cpp \
     src/messenger.cpp \
+    src/locker.cpp \
     src/notifier.cpp \
     src/receiver.cpp \
     src/sender.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     src/masker.h \
     src/message.h \
     src/messenger.h \
+    src/locker.h \
     src/notifier.h \
     src/receiver.h \
     src/sender.h \

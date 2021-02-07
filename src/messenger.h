@@ -124,9 +124,8 @@ signals:
 public slots:
     void catched(pid_t who, int what);
 
-public:
-    Space m_space;
 private:
+    Space m_space;
     Notifier *m_notifier;
 };
 

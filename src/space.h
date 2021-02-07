@@ -4,6 +4,7 @@
 #include "global.h"
 #include "message.h"
 #include "command.h"
+#include "locker.h"
 
 #include <QObject>
 #include <QDebug>
@@ -83,6 +84,7 @@ private:
     bool m_ready;
 
 public:
+    Locker *m_locker;
     MessageSpace *m_space;
 };
 

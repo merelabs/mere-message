@@ -58,13 +58,6 @@ int Mere::Message::Server::start()
 
 void Mere::Message::Server::accept(const pid_t &pid)
 {
-    qDebug() << "Thread:" << QThread::currentThreadId() << m_messenger;
-
-    qDebug() << "SPACE:" << m_messenger->m_space.m_space;
-    qDebug() << "OFFSET:" << offsetof(MessageSpace, messages);
-    qDebug() << "MESSAGES:" << m_messenger->m_space.m_space->messages;
-
-
     std::cout << "A process " << pid << " wanna join in the session." << std::endl;
 
     auto result = std::find(std::begin(m_clients), std::end(m_clients), pid);

@@ -1,10 +1,10 @@
 # mere-message-lib
 `mere-message` is a simple messaging mechanism to share information and comunnication between processes. The primary implementation is based on posix shared memory, semaphore and unix signaling mechanism to let each other know about the changes. The library also used qt's signal/slot mechanism.
 
-# Component
+## Component
 There are two componnets available for processes, a) Server, b) Client; A process can be a server or a client;
 
-## Server
+### Server
 A process should create a messaging server with a name -mms://unique-server-of-the-server, that client will use to connect and wait for clients to join there. 
 
 A simple code snippet to start a server -
@@ -26,9 +26,9 @@ A simple code snippet to start a server -
   server->start();
 ```
 
-A sample [server](https://github.com/merelabs/mere-message/tree/master/examples/server) implementation is shown in the [samples](https://github.com/merelabs/mere-message/tree/master/examples/examples) folder.
+A sample [server](https://github.com/merelabs/mere-message/tree/master/samples/server) implementation is shown in the [samples](https://github.com/merelabs/mere-message/tree/master/samples) folder.
 
-## Client
+### Client
 A process that joined with a named server indentified as custom shmece uri like mms://unique-server-of-the-server.
 A simple code snippet for a cient ot connect to the start -
 ```
@@ -50,5 +50,8 @@ A simple code snippet for a cient ot connect to the start -
   // say hello
   client->send("Hi, How are you?");
 ```
-A sample [client](https://github.com/merelabs/mere-message/tree/master/examples/client) implementation is shown in the [samples](https://github.com/merelabs/mere-message/tree/master/examples/examples) folder.
+A sample [client](https://github.com/merelabs/mere-message/tree/master/samples/client) implementation is shown in the [samples](https://github.com/merelabs/mere-message/tree/master/samples) folder.
 
+
+## License
+All the code in this repository is licensed under a [BSD-2-Clause License](LICENSE).

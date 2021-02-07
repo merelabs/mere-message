@@ -1,6 +1,5 @@
 #include "error.h"
 
-#include <cstring>
 #include <iostream>
 
 //static

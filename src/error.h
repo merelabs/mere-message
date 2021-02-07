@@ -2,6 +2,7 @@
 #define ERROR_H
 
 #include "global.h"
+#include <cstring>
 
 namespace Mere
 {

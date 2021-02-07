@@ -53,5 +53,14 @@ A simple code snippet for a cient ot connect to the start -
 A sample [client](https://github.com/merelabs/mere-message/tree/master/samples/client) implementation is shown in the [samples](https://github.com/merelabs/mere-message/tree/master/samples) folder.
 
 
+## Build
+
+```shell
+git clone https://github.com/merelabs/mere-message-lib.git
+cd mere-message-lib
+qmake
+make
+```
+
 ## License
 All the code in this repository is licensed under a [BSD-2-Clause License](LICENSE).

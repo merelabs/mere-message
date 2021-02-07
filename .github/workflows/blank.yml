@@ -22,6 +22,42 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Install Qt
+        # You may pin to the exact commit or the version.
+        # uses: jurplel/install-qt-action@082f6da1c27244004fa3c4b800f8ff21f066d905
+        uses: jurplel/install-qt-action@v2.12.1
+        #with:
+          # Directory to install Qt
+          #dir: # optional
+          # Version of Qt to install
+          #version: # optional, default is 5.15.2
+          # Host platform
+          #host: # optional
+          # Target platform for build
+          #target: # optional, default is desktop
+         # Architecture for Windows/Android
+          #arch: # optional
+          # Whether or not to install Qt dependencies on Linux
+          #install-deps: # optional, default is true
+          # Additional Qt modules to install
+          #modules: # optional
+          # Whether or not to actually download Qt
+          #cached: # optional, default is false
+          # Whether or not to automatically run setup-python to find a valid python version.
+          #setup-python: # optional, default is true
+          # Qt tools to download--specify comma-separated argument lists which are themselves separated by spaces: <tool_name>,<tool_version>,<tool_arch>
+          #tools: # optional
+          # Whether or not to set environment variables after running aqtinstall
+          #set-env: # optional, default is true
+          # Whether or not to actually install Qt or just the tools from the tools argument
+          #tools-only: # optional, default is false
+          # Version of aqtinstall to use in case of issues
+          #aqtversion: # optional, default is ==0.11.1
+          # Version of py7zr to use in case of issues
+          #py7zrversion: # optional, default is ==0.11.3
+          # Any extra arguments to append to the back
+          #extra: # optional    
+      
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
@@ -32,5 +68,5 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          qmake
+          make

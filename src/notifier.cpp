@@ -61,7 +61,7 @@ void Mere::Message::Notifier::handler(int signal, siginfo_t *si, void *ucontext)
     int who  = si->si_pid;
 
     // mask = metod and related message id (if any)
-    int mask = si->si_value.sigval_int;
+    int mask = si->si_value.sival_int;
     struct {
         int who;
         int what;

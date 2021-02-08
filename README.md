@@ -1,4 +1,5 @@
-# mere-message-lib ![CI](https://github.com/merelabs/mere-message-lib/workflows/CI/badge.svg)
+![CI](https://github.com/merelabs/mere-message-lib/workflows/CI/badge.svg)
+# mere-message-lib
 `mere-message` is a simple messaging mechanism to share information and comunnication between processes. The primary implementation is based on posix shared memory, semaphore and unix signaling mechanism to let each other know about the changes. The library also used qt's signal/slot mechanism.
 
 ## Component

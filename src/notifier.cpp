@@ -136,6 +136,11 @@ int Mere::Message::Notifier::NotifierPrivate::socketPair[2] = {0, 0};
 
 Mere::Message::Notifier::~Notifier()
 {
+    if (d_ptr)
+    {
+        delete d_ptr;
+        d_ptr = nullptr;
+    }
 }
 
 Mere::Message::Notifier::Notifier(QObject *parent)

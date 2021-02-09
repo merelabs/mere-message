@@ -255,6 +255,11 @@ private:
 
 Mere::Message::Space::~Space()
 {
+    if (d_ptr)
+    {
+        delete d_ptr;
+        d_ptr = nullptr;
+    }
 }
 
 Mere::Message::Space::Space(const char *name, int unit, int size)

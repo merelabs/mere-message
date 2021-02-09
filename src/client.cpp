@@ -77,6 +77,11 @@ private:
 
 Mere::Message::Client::~Client()
 {
+    if (d_ptr)
+    {
+        delete d_ptr;
+        d_ptr = nullptr;
+    }
 }
 
 Mere::Message::Client::Client(const std::string &path, QObject *parent)

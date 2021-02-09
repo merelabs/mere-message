@@ -70,22 +70,8 @@ public:
     int numberOfUnits() const;
 
 private:
-    unsigned long long size() const;
-    int vmap();
-
-signals:
-
-private:
-    char *m_name = nullptr;
-    unsigned int m_unit;
-    unsigned int m_size;
-
-    int m_shm;
-    bool m_ready;
-
-public:
-    Locker *m_locker;
-    MessageSpace *m_space;
+    class SpacePrivate;
+    SpacePrivate *d_ptr;
 };
 
 }

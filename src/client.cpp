@@ -7,6 +7,15 @@ class Mere::Message::Client::ClientPrivate : public QObject
 {
     Q_OBJECT
 public:
+    ~ClientPrivate()
+    {
+        if(m_messenger)
+        {
+            delete m_messenger;
+            m_messenger = nullptr;
+        }
+    }
+
     ClientPrivate(const char *path, Client *q)
         : q_ptr(q)
     {
@@ -67,11 +76,6 @@ private:
 
 Mere::Message::Client::~Client()
 {
-//    if(m_messenger)
-//    {
-//        delete m_messenger;
-//        m_messenger = nullptr;
-//    }
 }
 
 Mere::Message::Client::Client(const std::string &path, QObject *parent)

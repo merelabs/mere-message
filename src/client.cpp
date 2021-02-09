@@ -3,13 +3,75 @@
 
 #include <iostream>
 
+class Mere::Message::Client::ClientPrivate : public QObject
+{
+    Q_OBJECT
+public:
+    ClientPrivate(const char *path, Client *q)
+        : q_ptr(q)
+    {
+        Uri uri(path);
+
+        m_messenger = new Messenger(uri.path(), q);
+
+        std::cout << "Its me, a client: " << getpid()  << " connecting to: " << path << std::endl;
+    }
+
+    int join()
+    {
+        m_messenger->notifier()->watch(SIGUSR1);
+
+        int err = m_messenger->join();
+        if (!err)
+        {
+            connect(m_messenger, SIGNAL(pong(const int &)), q_ptr, SIGNAL(pong(const int &)));
+
+            connect(m_messenger, SIGNAL(post(const mid_t &)), q_ptr, SIGNAL(post(const mid_t &)));
+            connect(m_messenger, SIGNAL(message(const std::string &)), q_ptr, SIGNAL(message(const std::string &)));
+            connect(m_messenger, SIGNAL(message(const Mere::Message::Message &)), q_ptr, SIGNAL(message(const Mere::Message::Message &)));
+
+            connect(m_messenger, SIGNAL(seen(const pid_t &, const mid_t &)), q_ptr, SIGNAL(seen(const pid_t &, const mid_t &)));
+            connect(m_messenger, SIGNAL(ackn(const pid_t &, const method_t &)), q_ptr, SIGNAL(ackn(const pid_t &, const method_t &)));
+        }
+
+        return 0;
+    }
+
+    int done()
+    {
+        return m_messenger->done();
+    }
+
+    void ping()
+    {
+        m_messenger->send(PING);
+    }
+
+    void send(const std::string &message)
+    {
+        m_messenger->send(message.c_str());
+    }
+
+    void send(const char *message)
+    {
+        m_messenger->send(message);
+    }
+
+private:
+    bool m_ready = false;
+    Messenger *m_messenger;
+
+    Client *q_ptr;
+
+};
+
 Mere::Message::Client::~Client()
 {
-    if(m_messenger)
-    {
-        delete m_messenger;
-        m_messenger = nullptr;
-    }
+//    if(m_messenger)
+//    {
+//        delete m_messenger;
+//        m_messenger = nullptr;
+//    }
 }
 
 Mere::Message::Client::Client(const std::string &path, QObject *parent)
@@ -18,50 +80,30 @@ Mere::Message::Client::Client(const std::string &path, QObject *parent)
 }
 
 Mere::Message::Client::Client(const char *path, QObject *parent)
-    : Sender(parent)
+    : Sender(parent),
+      d_ptr(new ClientPrivate(path, this))
 {
-    Uri uri(path);
-
-    //std::cout << "Schema:" << uri.schema() << std::endl;
-    //std::cout << "Server:" << uri.server() << std::endl;
-    //std::cout << "Service:" << uri.service() << std::endl;
-
-    m_messenger = new Messenger(uri.path(), this);
-
     std::cout << "Its me, a client: " << getpid()  << " connecting to: " << path << std::endl;
 }
 
 int Mere::Message::Client::join()
 {
-    m_messenger->notifier()->watch(SIGUSR1);
-
-    int err = m_messenger->join();
-    if (!err)
-    {
-        connect(m_messenger, SIGNAL(pong(const int &)), this, SIGNAL(pong(const int &)));
-
-        connect(m_messenger, SIGNAL(post(const mid_t &)), this, SIGNAL(post(const mid_t &)));
-        connect(m_messenger, SIGNAL(message(const std::string &)), this, SIGNAL(message(const std::string &)));
-        connect(m_messenger, SIGNAL(message(const Mere::Message::Message &)), this, SIGNAL(message(const Mere::Message::Message &)));
-
-        connect(m_messenger, SIGNAL(seen(const pid_t &, const mid_t &)), this, SIGNAL(seen(const pid_t &, const mid_t &)));
-        connect(m_messenger, SIGNAL(ackn(const pid_t &, const method_t &)), this, SIGNAL(ackn(const pid_t &, const method_t &)));
-    }
-
-    return err;
+    return d_ptr->join();
 }
 
 int Mere::Message::Client::done()
 {
-    return m_messenger->done();
+    return d_ptr->done();
 }
 
 void Mere::Message::Client::ping()
 {
-    m_messenger->send(PING);
+    return d_ptr->ping();
 }
 
 void Mere::Message::Client::send(const std::string &message)
 {
-    m_messenger->send(message.c_str());
+    return d_ptr->send(message);
 }
+
+#include "client.moc"

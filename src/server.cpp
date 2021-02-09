@@ -4,7 +4,6 @@
 
 #include <iostream>
 
-#include <QThread>
 Mere::Message::Server::~Server()
 {
     if(m_messenger)
@@ -34,7 +33,6 @@ Mere::Message::Server::Server(const char *path, QObject *parent)
 
 int Mere::Message::Server::start()
 {
-    qDebug() << "Thread:" << QThread::currentThreadId();
     m_messenger->notifier()->watch(SIGUSR2);
 
     int err = m_messenger->bind();

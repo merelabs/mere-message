@@ -1,17 +1,15 @@
 #include "locker.h"
 
-//#include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
 
-Locker::Locker(const char *name, QObject *parent)
-    : QObject(parent),
-      m_name(name)
+Mere::Message::Locker::Locker(const char *name)
+    : m_name(name)
 {
 
 }
 
-int Locker::bind()
+int Mere::Message::Locker::bind()
 {
     m_sem = sem_open(m_name, O_CREAT, 0660, 1);
     if (m_sem == SEM_FAILED)
@@ -23,7 +21,7 @@ int Locker::bind()
     return 0;
 }
 
-int Locker::done()
+int Mere::Message::Locker::done()
 {
     int err = sem_unlink(m_name);
     if (err == -1)
@@ -34,7 +32,7 @@ int Locker::done()
     return err;
 }
 
-bool Locker::lock()
+bool Mere::Message::Locker::lock()
 {
     int err = sem_wait(m_sem);
     if (err == -1)
@@ -45,7 +43,7 @@ bool Locker::lock()
     return err;
 }
 
-bool Locker::free()
+bool Mere::Message::Locker::free()
 {
     int err = sem_post(m_sem);
     if (err == -1)
@@ -54,14 +52,4 @@ bool Locker::free()
     }
 
     return err;
-}
-
-void Locker::up()
-{
-//   struct sembuf sb;
-//   sb.sem_num = 0;
-//   sb.sem_op = 1;
-//   sb.sem_flg = 0;
-
-//   semop(m_mutex, &sb, 1);
 }

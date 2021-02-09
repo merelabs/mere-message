@@ -39,8 +39,11 @@ signals:
     void ackn(const pid_t &pid, const method_t &method);
 
 private:
-    bool m_ready = false;
-    Messenger *m_messenger;
+//    bool m_ready = false;
+//    Messenger *m_messenger;
+
+    class ClientPrivate;
+    ClientPrivate *d_ptr;
 };
 
 }

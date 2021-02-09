@@ -26,9 +26,6 @@ public:
     void pong();
     void send(const std::string &message) override;
 
-private slots:
-    void accept(const pid_t &pid);
-
 signals:
     void join(const int &pid);
     void ping(const int &pid);
@@ -42,9 +39,8 @@ signals:
     void seen(const pid_t &pid, const mid_t &id);
 
 private:
-    std::vector<int> m_clients;
-
-    Messenger *m_messenger;
+    class ServerPrivate;
+    ServerPrivate *d_ptr;
 };
 
 }

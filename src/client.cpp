@@ -43,7 +43,7 @@ public:
             connect(m_messenger, SIGNAL(ackn(const pid_t &, const method_t &)), q_ptr, SIGNAL(ackn(const pid_t &, const method_t &)));
         }
 
-        return 0;
+        return err;
     }
 
     int done()
@@ -87,7 +87,6 @@ Mere::Message::Client::Client(const char *path, QObject *parent)
     : Sender(parent),
       d_ptr(new ClientPrivate(path, this))
 {
-    std::cout << "Its me, a client: " << getpid()  << " connecting to: " << path << std::endl;
 }
 
 int Mere::Message::Client::join()

@@ -17,7 +17,8 @@ SOURCES += \
 
 INCLUDEPATH += /usr/local/include
 
-LIBS += -lmere-message -lrt
+LIBS += -lrt
+LIBS += -lmere-message
 
 HEADERS += \
     server.h

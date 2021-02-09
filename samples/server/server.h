@@ -9,13 +9,14 @@ class Server : public QObject
 {
     Q_OBJECT
 public:
+    ~Server();
     explicit Server(QObject *parent = nullptr);
 
 signals:
 
 public slots:
     void ping(const int &pid);
-    void message(const QString &message);
+    void message(const std::string &message);
     void message(const Mere::Message::Message &message);
 
 private:

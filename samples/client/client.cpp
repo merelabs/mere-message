@@ -18,8 +18,15 @@ Client::Client(QObject *parent) : QObject(parent)
     connect(m_client, SIGNAL(pong(const int &)), this, SLOT(pong(const int &)));
     connect(m_client, SIGNAL(seen(const pid_t &, const mid_t &)), this, SLOT(seen(const pid_t &, const mid_t &)));
 
-    m_client->join();
+    int err = m_client->join();
+    qDebug() << ">>>>>>>" << err;
+    if (err)
+    {
+        std::cout << "Sorry, failed to connect with server runnit at : " << "mms://lets-talk" << std::endl;
+        return;
+    }
 
+    std::cout << "Connected with server runnit at : " << "mms://lets-talk" << std::endl;
     m_client->send("Hi, How are you?");
 }
 

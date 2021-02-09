@@ -1,34 +1,33 @@
 #ifndef LOCKER_H
 #define LOCKER_H
 
+#include "global.h"
 #include <semaphore.h>
 
 #include <QObject>
 
-class Locker : public QObject
+namespace Mere
 {
-    Q_OBJECT
+namespace Message
+{
+
+class MERE_MESSAGE_LIB_SPEC Locker
+{
 public:
-    explicit Locker(const char *name, QObject *parent = nullptr);
+    explicit Locker(const char *name);
 
     int bind();
-    //int join();
     int done();
 
     bool lock();
     bool free();
 
 private:
-    void up();
-signals:
-
-private:
     const char *m_name;
-
-    bool m_lock;
-    bool m_drty;
-
     sem_t *m_sem;
 };
+
+}
+}
 
 #endif // LOCKER_H

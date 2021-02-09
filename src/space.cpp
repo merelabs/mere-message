@@ -16,6 +16,13 @@ Mere::Message::Space::~Space()
         m_name = nullptr;
     }
     done();
+
+    if (m_locker)
+    {
+        m_locker->done();
+        delete m_locker;
+        m_locker = nullptr;
+    }
 }
 
 Mere::Message::Space::Space(const char *name, int unit, int size)
@@ -88,12 +95,6 @@ int Mere::Message::Space::vmap()
 
         return errno;
     }
-
-//    if(mlock(m_space,size()) != 0){
-//        qDebug() << "FAILED TO LOCKED:" << m_space << &(m_space->messages) << m_space->messages;
-//      exit();
-//    }
-//    m_space->messages = (Message *)((char*)m_space + offsetof(MessageSpace, messages));
 
     return 0;
 }

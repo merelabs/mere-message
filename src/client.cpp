@@ -67,7 +67,6 @@ public:
     }
 
 private:
-    bool m_ready = false;
     Messenger *m_messenger;
 
     Client *q_ptr;

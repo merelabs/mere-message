@@ -278,13 +278,14 @@ bool Mere::Message::Messenger::exists(const mid_t id) const
 
 Mere::Message::Message* Mere::Message::Messenger::get(mid_t id) const
 {
-    qDebug() << "Going to fetch message with id:" << id << &m_space;
+    std::cout << "Going to fetch message with id:" << id << std::endl;
+
     int numberOfMessages = m_space.numberOfUnits();
     for (int index = 0; index < numberOfMessages; index++)
     {
         Message *msg = m_space.get(index);
         if (!msg) continue;
-        qDebug() << msg << msg->id;
+
         if (msg->id == id)
             return msg;
     }

@@ -37,3 +37,16 @@ jobs:
         run: |
           qmake -makefile mere-message-lib.pro -spec linux-clang 
           make
+
+      # Need to improve it!
+      - name : Bhudle lib (.so and .h...)
+        run: |
+          sudo make install
+          chmod +x bin/bindle.sh
+          ./bin/bundle.sh
+          
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/upload-artifact@v2
+        with:
+          name: mere-message-lib.latest
+          path: mere-message-lib.tgz        

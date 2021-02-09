@@ -3,7 +3,10 @@
 #include "utils.h"
 #include "masker.h"
 
+#include <cstring>
 #include <iostream>
+#include <unistd.h>
+#include <signal.h>
 
 Mere::Message::Messenger::~Messenger()
 {

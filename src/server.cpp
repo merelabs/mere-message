@@ -2,7 +2,10 @@
 #include "message.h"
 #include "uri.h"
 
+#include <cstring>
 #include <iostream>
+#include <unistd.h>
+#include <signal.h>
 
 Mere::Message::Server::~Server()
 {

@@ -2,6 +2,8 @@
 #include "uri.h"
 
 #include <iostream>
+#include <unistd.h>
+#include <signal.h>
 
 class Mere::Message::Client::ClientPrivate : public QObject
 {

@@ -21,7 +21,7 @@ A simple code snippet to start a server -
           this, SLOT(message(const Mere::Message::Message &)));
   
   // just the message
-  connect(m_server, SIGNAL(message(const QString &)), this, SLOT(message(const QString &)));
+  connect(m_server, SIGNAL(message(const std::string &)), this, SLOT(message(const std::string &)));
 
   // start the server - that's al
   server->start();
@@ -43,7 +43,7 @@ A simple code snippet for a cient ot connect to the start -
   connect(client, SIGNAL(message(const Mere::Message::Message &)), this, SLOT(message(const Mere::Message::Message &)));
   
   // just the message
-  connect(client, SIGNAL(message(const QString &)), this, SLOT(message(const QString &)));
+  connect(client, SIGNAL(message(const std::string &)), this, SLOT(message(const std::string &)));
 
   // lets join - that's all
   client->join();

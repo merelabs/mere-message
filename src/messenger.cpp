@@ -3,7 +3,10 @@
 #include "utils.h"
 #include "masker.h"
 
+#include <cstring>
 #include <iostream>
+#include <unistd.h>
+#include <signal.h>
 
 Mere::Message::Messenger::~Messenger()
 {
@@ -81,6 +84,12 @@ int Mere::Message::Messenger::send(const char *data, const std::vector<pid_t> &t
     if (!ready()) return 1;
 
     Sender *sender = static_cast<Sender *>(this->parent());
+    if (!sender)
+    {
+        std::cerr << "No sender available to send this method to recepient!" << std::endl;
+        return 2;
+    }
+
     int signal = m_space.origin() == sender->whoami() ? SIGUSR1 : SIGUSR2;
     pid_t target = targets.size() == 1 ? targets.at(0) : 0;
 
@@ -112,11 +121,20 @@ int Mere::Message::Messenger::send(const Method &method, const pid_t target)
 
 int Mere::Message::Messenger::send(const Method &method, const std::vector<pid_t> &targets)
 {
-    Sender *sender = static_cast<Sender *>(this->parent());
-    int signal = m_space.origin() == sender->whoami() ? SIGUSR1 : SIGUSR2;
+    if (!ready()) return 1;
 
+    Sender *sender = static_cast<Sender *>(this->parent());
+    if (!sender)
+    {
+        std::cerr << "No sender available to send this method to recepient!" << std::endl;
+        return 2;
+    }
+
+    int signal = m_space.origin() == sender->whoami() ? SIGUSR1 : SIGUSR2;
     pid_t target = targets.size() == 1 ? targets.at(0) : 0;
+
     write(signal, target, method);
+
     for(const pid_t &target : targets)
         notify(signal, target, method);
 
@@ -192,6 +210,12 @@ Mere::Message::Notifier* Mere::Message::Messenger::notifier() const
 void Mere::Message::Messenger::notify()
 {
     Sender *sender = static_cast<Sender *>(this->parent());
+    if (!sender)
+    {
+        std::cerr << "No sender available to notify recepient!" << std::endl;
+        return;
+    }
+
     int signal = m_space.origin() == sender->whoami() ? SIGUSR1 : SIGUSR2;
 
     notify(signal);
@@ -230,6 +254,12 @@ void Mere::Message::Messenger::notify(int signal, int target, std::pair<method_t
 int Mere::Message::Messenger::ackn(pid_t target, Method method)
 {
     Sender *sender = static_cast<Sender *>(this->parent());
+    if (!sender)
+    {
+        std::cerr << "No sender available to send this method to recepient!" << std::endl;
+        return 1;
+    }
+
     int signal = m_space.origin() == sender->whoami() ? SIGUSR1 : SIGUSR2;
     notify(signal, target, {Method::ACKN, method});
 
@@ -251,13 +281,14 @@ bool Mere::Message::Messenger::exists(const mid_t id) const
 
 Mere::Message::Message* Mere::Message::Messenger::get(mid_t id) const
 {
-    qDebug() << "Going to fetch message with id:" << id << &m_space;
+    std::cout << "Going to fetch message with id:" << id << std::endl;
+
     int numberOfMessages = m_space.numberOfUnits();
     for (int index = 0; index < numberOfMessages; index++)
     {
         Message *msg = m_space.get(index);
         if (!msg) continue;
-        qDebug() << msg << msg->id;
+
         if (msg->id == id)
             return msg;
     }

@@ -19,7 +19,6 @@ Client::Client(QObject *parent) : QObject(parent)
     connect(m_client, SIGNAL(seen(const pid_t &, const mid_t &)), this, SLOT(seen(const pid_t &, const mid_t &)));
 
     int err = m_client->join();
-    qDebug() << ">>>>>>>" << err;
     if (err)
     {
         std::cout << "Sorry, failed to connect with server runnit at : " << "mms://lets-talk" << std::endl;

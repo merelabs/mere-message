@@ -50,6 +50,9 @@ HEADERS += \
     src/uri.h \
     src/utils.h
 
+OTHER_FILES +=\
+    README.md
+
 LIBS += -lrt
 
 #

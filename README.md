@@ -6,7 +6,7 @@
 There are two componnets available for processes, a) Server, b) Client; A process can be a server or a client;
 
 ### Server
-A process should create a messaging server with a name -mms://unique-server-of-the-server, that client will use to connect and wait for clients to join there. 
+A process should create a messaging server with a unique name - mms://unique-namer-of-the-server, that client will use to connect, and wait for clients to join there. 
 
 A simple code snippet to start a server -
 ```
@@ -23,7 +23,7 @@ A simple code snippet to start a server -
   // just the message
   connect(m_server, SIGNAL(message(const std::string &)), this, SLOT(message(const std::string &)));
 
-  // start the server - that's al
+  // start the server - that's all
   server->start();
 ```
 

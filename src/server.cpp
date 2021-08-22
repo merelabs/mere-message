@@ -42,11 +42,11 @@ public:
             // listen and accept
             connect(m_messenger, SIGNAL(join(const pid_t &)), this, SLOT(accept(const pid_t&)));;
 
-            connect(m_messenger, SIGNAL(message(const Mere::Message::Message &)), this, SIGNAL(message(const Mere::Message::Message &)));
-            connect(m_messenger, SIGNAL(message(const std::string &)), this, SIGNAL(message(const std::string &)));
-            connect(m_messenger, SIGNAL(pong(const int &)), this, SIGNAL(pong(const int &)));
+            connect(m_messenger, SIGNAL(message(const Mere::Message::Message &)), q_ptr, SIGNAL(message(const Mere::Message::Message &)));
+            connect(m_messenger, SIGNAL(message(const std::string &)), q_ptr, SIGNAL(message(const std::string &)));
+            connect(m_messenger, SIGNAL(pong(const int &)), q_ptr, SIGNAL(pong(const int &)));
 
-            connect(m_messenger, SIGNAL(seen(const pid_t &, const mid_t &)), this, SIGNAL(seen(const pid_t &, const mid_t &)));
+            connect(m_messenger, SIGNAL(seen(const pid_t &, const mid_t &)), q_ptr, SIGNAL(seen(const pid_t &, const mid_t &)));
         }
 
         return err;
